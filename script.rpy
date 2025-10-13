@@ -9,6 +9,8 @@ define matilde = Character("Matilde")
 define artur = Character("Artur")
 define male_student_a = Character("Male Student")
 
+init python:
+    renpy.music.register_channel("ambience", "sfx", True)
 
 # The game starts here.
 
@@ -18,7 +20,7 @@ label start:
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
 
-    scene adam_room
+    scene adam room with fade
 
     "*beep beep* *beep beep*"
 
@@ -26,7 +28,7 @@ label start:
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
 
-    show adam_placeholder at left with dissolve
+    show adam_placeholder at left with moveinleft
 
     adam "*yawn* *groan* Hmm?"
 
@@ -35,6 +37,8 @@ label start:
     adam "Mmh. I've still got time…"
 
     "…I overslept."
+
+    play music "audio/soundtrack/rush.mp3"
 
     adam "7:35!?"
 
@@ -45,7 +49,10 @@ label start:
     "Beats running out pantsless."
     "I can't be bothered to wash them whenever I need them, so I usually just wash everything in one go as soon as I run out."
     "No time to straighten my hair."
+    play sound "keychain.wav"
     "I put on my sunglasses, lock the door and rush to my car."
+    play sound "heavy_door_closing_2.wav" volume 0.5
+    play ambience "bg city.ogg" volume 0.2
 
     hide adam_placeholder at left with dissolve
     scene street with dissolve
@@ -57,14 +64,17 @@ label start:
     "Driving's gonna be a pain in the ass again."
     "I don't wanna go in the first place, but it'd look bad to be missing on my first day of college, and being late already probably won't make me any more popular with the profs either."
 
-    scene campus_front
+    scene campus front
     "It's 8 on the dot now."
     "I'm like 20 minutes late."
 
-    scene campus_hall_A
+    stop ambience fadeout 1.0
+    scene campus hall a
+    play ambience "audio/bg chatter.ogg" volume 0.2
     "Hopefully the traffic excuse is good enough."
 
-    scene classroom_A
+    scene classroom a
+    play music "audio/soundtrack/classroom.mp3"
     "I run into the classroom."
     "At this point I can't even tell if I'm actually exhausted or just faking it."
 
@@ -132,18 +142,22 @@ label start:
 
     artur "Alright, wise guy. If you want I can show you around after this whole thing is done here. Name's artur by the way. Nice to meetcha. And cool shades."
 
-    adam "adam. And thanks, I guess."
+    adam "Adam. And thanks, I guess."
 
-    artur "Did matilde fill you in already or-?"
+    artur "Did Matilde fill you in already or-?"
 
     "Before I could ask whether he meant the girl next to me or not an alarm that sounds like a phone ringtone goes off."
     hide adam_placeholder
     hide artur_placeholder
 
+    stop ambience fadeout 1.0
     show johanna_placeholder at right
-    johanna "Well guys, I know how boring and annoying introductions like these can be and I’m pretty sure I got all the important bits across already, so the introductions are over. The student council will stick around the halls for a little longer in case any of you need help getting around until the show starts. Have a nice day and I hope to see you all there!"
+    johanna "Well then, I know how boring and annoying introductions like these can be and I’m pretty sure I got all the important bits across already, so the introductions are over."
+    johanna "The student council will stick around the halls for a little longer in case any of you need help getting around until the show starts."
+    johanna "Have a nice day and I hope to see you all there!"
 
     "As she walks out the door I come to a realization. I didn't hear a single word she said."
+    play ambience "bg chatter.ogg" fadein 2.0
     "With a look of clear confusion on my face I turn to the girl and before I even have to say anything she answers."
 
     show matilde_placeholder at left
@@ -166,18 +180,22 @@ label start:
     "A welcoming concert, huh? Well, I actually happen to be quite fond of music and I've got nothing better to do so sure, I’ll bite."
     "Only problem is, I have no idea where that 'big hall' is. Maybe I should ask someone for directions."
     "Besides, making some acquaintances along the way can't hurt."
+    stop music fadeout 2.0
+    stop ambience fadeout 1.0
 
     menu:
-        "Ask the Student Council President to accompany you. If anyone knows where it is, it's her.":
+        "Ask the student council president to accompany you. If anyone knows where it is, it's her.":
             jump choice_a
-        "Ask matilde to accompany you. Maybe you can help ease her nerves along the way.":
+        "Ask Matilde to accompany you. Maybe you can help ease her nerves along the way.":
             jump choice_b
-        "Ask artur to accompany you. It would be rude to turn down his offer.":
+        "Ask Artur to accompany you. It would be rude to turn down his offer.":
             jump choice_c
 
     label choice_a:
 
-        scene campus_hallway_A
+        scene campus hallway a
+        play music "audio/soundtrack/around campus.mp3"
+        play ambience "bg chatter.ogg" volume 0.2
         "I walk out the door and look around for a bit but I can't see her anywhere."
 
         johanna "Are you looking for someone?"
@@ -207,7 +225,7 @@ label start:
 
         hide adam_placeholder
         hide johanna_placeholder
-        scene campus_hall_A
+        scene campus hall a
 
         "I guess I’ll just walk somewhat behind her."
         "Might be a good call to make some small talk."
@@ -274,6 +292,8 @@ label start:
         hide johanna_placeholder
         "As annoying as that walk was, at least talking to her was fun."
         "Now for what I actually came here for."
+        stop music fadeout 2.0
+        stop ambience fadeout 1.0
 
         scene auditorium
         return
@@ -281,6 +301,7 @@ label start:
     label choice_b:
 
         "After some thinking I look back at the girl."
+        play music "audio/soundtrack/calm.mp3"
 
         show adam_placeholder at left
         adam "Say, are you interested in checking it out?"
@@ -317,7 +338,8 @@ label start:
 
         matilde "So it should be that way. I think. No, maybe it was that way? No wait! Was it this way?"
 
-        scene campus_hallway_A
+        scene campus hallway a
+        play ambience "bg chatter.ogg" volume 0.2
 
         "Of course the moment we step outside she's as aimless as me. Figures."
 
@@ -390,10 +412,10 @@ label start:
 
         "It’s been like half an hour and she’s still going."
         "Starting to regret ever asking."
-        scene campus_hall_A
+        scene campus hall a
         "Eventually we’re back on the hall we started."
 
-        adam "Hey matilde, I really don’t mean to be rude but you made us go in circles."
+        adam "Hey Matilde, I really don’t mean to be rude but you made us go in circles."
 
         matilde "Huh? Oh no! I messed up again…"
 
@@ -423,6 +445,9 @@ label start:
         "At least answer my question before you run off, will you?"
         "Well, hopefully there’s a clock inside."
         "Now for what I actually came here for."
+        stop music fadeout 2.0
+        stop ambience fadeout 1.0
+
         scene auditorium
         
         return
@@ -435,6 +460,7 @@ label start:
         show adam_placeholder at left
         adam "Hey."
 
+        play music "audio/soundtrack/funny scene.mp3"
         show artur_placeholder at right
         artur "Yo Shades, ‘sup?"
 
@@ -461,7 +487,9 @@ label start:
         "And he's already out the door."
         "How much energy can a guy have this early in the day?"
 
-        scene campus_hallway_A
+        scene campus hallway a
+
+        play ambience "bg chatter.ogg" volume 0.2
 
         show artur_placeholder at right with moveinright
         show adam_placeholder at left with moveinleft
@@ -552,7 +580,9 @@ label start:
 
         artur "Uh, sure? Go ahead, dude."
 
-        scene campus_hall_A
+        scene campus hall a
+        show artur_placeholder at right with moveinright
+        show adam_placeholder at left with moveinleft
 
         "I steel myself for the most shameful thing I’ll do all day and walk up to a student on a bench."
 
@@ -608,11 +638,13 @@ label start:
 
         artur "Nah. Got stuff to do. I’ll see you around."
         hide artur_placeholder with moveoutright
-        hide adam_placeholder
+        hide adam_placeholder with moveoutleft
 
         "And with that he’s off."
         "What a weird guy."
         "Now for what I actually came here for."
+        stop music fadeout 2.0
+        stop ambience fadeout 1.0
 
         scene auditorium
         return
